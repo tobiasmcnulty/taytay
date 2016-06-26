@@ -1,6 +1,6 @@
 branch-defaults:
   terraform-elastic-beanstalk:
-    environment: taytay-staging-env10
+    environment: taytay-staging-env
     group_suffix: null
 global:
   application_name: taytay-staging-app
