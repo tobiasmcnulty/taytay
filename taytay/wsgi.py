@@ -8,14 +8,17 @@ https://docs.djangoproject.com/en/1.8/howto/deployment/wsgi/
 """
 
 import os
-
-import dotenv
+try:
+    import dotenv
+except ImportError:
+    dotenv = None
 
 from django.core.wsgi import get_wsgi_application
 
 from whitenoise.django import DjangoWhiteNoise
 
 
-dotenv.read_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
+if dotenv:
+    dotenv.read_dotenv()
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'taytay.settings')
 application = DjangoWhiteNoise(get_wsgi_application())
