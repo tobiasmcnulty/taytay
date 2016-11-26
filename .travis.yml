@@ -1,15 +1,22 @@
 language: python
 
-sudo: false
+sudo: required
 
 python:
-  - "3.4"
+  - '3.5'
+
+services:
+  - docker
 
 addons:
-  postgresql: "9.3"
+  postgresql: '9.5'
 
 env:
-  - SECRET_KEY="thisisverysecretandveryveryveryveryveryveryveryveryveryveryverylong",BAELOR_API_KEY="XXXXXX"
+  matrix:
+    - SECRET_KEY="thisisverysecretandveryveryveryveryveryveryveryveryveryveryverylong",BAELOR_API_KEY="XXXXXX"
+  global:
+    - secure: rQc7bE3i+xwi1fNz3oI1bBcogPrRsucsemRESFXnhYIlq7vIkwnI+j1tKm1omoteK4jX+RoImuvvWOgfI+4bFTIpY7qBp0H+E/GoYB7uqjVzoFnq45NZPZDdOZy5uTjiV23mn2/WCmIYzQVHT44WcevtDbtE/P/pAKrpuWsvQ4XCxep7UW5auREBweAyyK7zXbEENv7M+wFfl6ZOHjKdsW8LN9ETLaXvoN60pIBGEoFVD7oqC8WvA3uIqswfxG7J8dAkW+N3g8E7nctHIRvtwDM0Gq7rlPeoEhaechoVtTDqG8l+dIRJlAFn0BQJZWVdtGAA6O2u37ivbct82E97je3glyhlU/pvayI2dWLXpeH8yD5gY+QPvIlfpTR8h8mjVDzoktUoMPXmJfQxp2YSmyBvjwR6OonvcIJbt6C9J83GOopqKCo6VOiaG8NIQONeUJxAE4UN0k9qM1cQ/znTl55UNVKWX6Yv2wZRmjyHcqKiTgM9oWDirN+QcPADinBpeIK2KrcE/+e5c9x4mAZVzRWQPHfbqLNH4hVr5vqjWOWBtuXtdBtxgf05+luGO3XpeHycEShaaSkBIxn2n4DaiPUBTUP7I5kpHo4M7RRjaS/WoKiX4ArEKDv4Vvdrb+dYRy+17qw895+tJHkVKuYbJ0i1+fyV/bIKCSGE088sBz0=
+    - secure: +z5DLtGslRJsKitvaOZB1DRjGImT2SA8gJLaM+smzwExQbw3BkOON1Sfig+h3oBRnVaOJLh38HU344D+zPnMa8Ii5gCH9pEMlbuGtkRPUxk0DW8625raLJdyH9Q3ciIQrwgZyjuTiqBMdLhwml5fNgeP/6OFOwajMuogSf6D1hh8k9NG4RjS79lBMjT4Txag/Wts3cvS40BuAArf8+AhHRuBPgt7DPwm9JgvtLEwbM4NK+1mfj5XSQXqAuYUdekQfLIwyeu8ZPovzROyJtu9l2aA43nxik4WnjZFnZeKwYkaiCcgOkkzpfMsVPNUrXzwth9sKn48PHz+DAw5tluZZ7WL8icKi/n2wXb+fNuM1TJndbZBF4clWj8q2cQ+Cp3OdjuZFxV/pKqqXkez2pa4odXJhAa9pP17CM1HBoKdVd2snT8hvpoTkQmdYBCreKMgiknlSweDD3FCiwVRGPu9WhH/xSG7IIKWKKfUDTDW26d4Wd3heoBjpL4JP/C79pM7tjLnKTcDywwZGii/AHjBKL8x4xYsE/rK0jXU35Uo6SOhru8GB8j7HxWfodVkAOjX3WMbUiueDg7tagT9jxjo+32We2QYOARIVw2M3da8PZr2Tkh/tfkKs1OxhloMWu1zaZZIXn99lCeLfbREq6+0+moh9SR0FUS751rq3aqY/tc=
 
 cache:
   directories:
@@ -28,7 +35,10 @@ script:
 
 after_success:
   - codecov
-
-branches:
-  only:
-    - master
+  - docker --version
+  - pip install --user awscli
+  - export PATH=$PATH:$HOME/.local/bin
+  - eval $(aws ecr get-login --region us-east-1)
+  - docker build -t taytay .
+  - docker tag taytay:latest 253713026331.dkr.ecr.us-east-1.amazonaws.com/taytay:latest
+  - docker push 253713026331.dkr.ecr.us-east-1.amazonaws.com/taytay:latest
