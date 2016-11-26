@@ -36,8 +36,7 @@ script:
 after_success:
   - codecov
   - docker --version
-  - pip install --user awscli
-  - export PATH=$PATH:$HOME/.local/bin
+  - pip install -U awscli
   - eval $(aws ecr get-login --region us-east-1)
   - docker build -t taytay .
   - docker tag taytay:latest 253713026331.dkr.ecr.us-east-1.amazonaws.com/taytay:latest
