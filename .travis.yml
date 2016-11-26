@@ -38,6 +38,6 @@ after_success:
   - docker --version
   - pip install -U awscli
   - eval $(aws ecr get-login --region us-east-1)
-  - docker build -t taytay .
-  - docker tag taytay:latest 253713026331.dkr.ecr.us-east-1.amazonaws.com/taytay:latest
-  - docker push 253713026331.dkr.ecr.us-east-1.amazonaws.com/taytay:latest
+  - docker build -t taytay-staging .
+  - docker tag taytay-staging:latest 253713026331.dkr.ecr.us-east-1.amazonaws.com/taytay-staging:latest
+  - docker push 253713026331.dkr.ecr.us-east-1.amazonaws.com/taytay-staging:latest
