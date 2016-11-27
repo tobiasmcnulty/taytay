@@ -31,6 +31,6 @@ RUN mkdir /code/
 WORKDIR /code/
 ADD . /code/
 EXPOSE 8000
-ENV DEBUG=off UWSGI_VIRTUALENV=/venv UWSGI_WSGI_FILE=taytay/wsgi.py UWSGI_HTTP=:8000
+ENV DEBUG=off UWSGI_VIRTUALENV=/venv UWSGI_WSGI_FILE=taytay/wsgi.py UWSGI_HTTP=:8000 UWSGI_MASTER=1 UWSGI_WORKERS=8 UWSGI_HTTP_AUTO_CHUNKED=1 UWSGI_KEEPALIVE=1 UWSGI_HARAKIRI=20
 RUN SECRET_KEY=none /venv/bin/python manage.py collectstatic --noinput
 CMD ["/venv/bin/uwsgi"]
