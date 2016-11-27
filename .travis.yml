@@ -38,6 +38,6 @@ after_success:
   - docker --version
   - pip install -U awscli
   - eval $(aws ecr get-login --region us-east-1)
-  - docker build -t taytay-$(git rev-parse --abbrev-ref HEAD).
-  - docker tag taytay-$(git rev-parse --abbrev-ref HEAD):latest 122034113952.dkr.ecr.us-east-1.amazonaws.com/taytay-$(git rev-parse --abbrev-ref HEAD):latest
-  - docker push 122034113952.dkr.ecr.us-east-1.amazonaws.com/taytay-$(git rev-parse --abbrev-ref HEAD):latest
+  - docker build -t taytay-$TRAVIS_BRANCH .
+  - docker tag taytay-$TRAVIS_BRANCH:latest 122034113952.dkr.ecr.us-east-1.amazonaws.com/taytay-$TRAVIS_BRANCH:latest
+  - docker push 122034113952.dkr.ecr.us-east-1.amazonaws.com/taytay-$TRAVIS_BRANCH:latest
