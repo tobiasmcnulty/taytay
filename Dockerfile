@@ -33,4 +33,5 @@ ADD . /code/
 EXPOSE 8000
 ENV DEBUG=off UWSGI_VIRTUALENV=/venv UWSGI_WSGI_FILE=taytay/wsgi.py UWSGI_HTTP=:8000 UWSGI_MASTER=1 UWSGI_WORKERS=8 UWSGI_HTTP_AUTO_CHUNKED=1 UWSGI_KEEPALIVE=1 UWSGI_HARAKIRI=20
 RUN SECRET_KEY=none /venv/bin/python manage.py collectstatic --noinput
-CMD ["/venv/bin/uwsgi"]
+RUN /venv/bin/pip install ec2-meta-env
+CMD ["/venv/bin/ec2-meta-env", "-e", "local-ipv4", "-e", "local-hostname", "/venv/bin/uwsgi"]

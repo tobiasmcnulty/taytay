@@ -101,6 +101,9 @@ SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = os.environ.get('DEBUG', 'on') == 'on'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(';')
+for host in ['EC2_LOCAL_IPV4', 'EC2_LOCAL_HOSTNAME', 'DOMAIN_NAME']:
+    if host in os.environ:
+        ALLOWED_HOSTS.append(os.environ[host])
 
 INTERNAL_IPS = ('127.0.0.1', )
 
